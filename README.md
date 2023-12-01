@@ -1,7 +1,7 @@
 MY NICE and AWESOME TERRAFORM MODULE TO PROVISION RDS MySQL DB WITH CUSTOM VPC ON PRIVATE SUBNET. ----->
 
 module "pumejrds-module" {
-source        = "./modules"
+source        = "github.com/Mexxy-lab/pumejrds-module.git"
 region        = "us-west-2"
 vpc_cidr      = "10.0.0.0/16"
 dns_hostnames = true
