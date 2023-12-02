@@ -12,8 +12,6 @@ dns_support   = true
 priv_one_cidr = "10.0.1.0/24"
 az_one        = "Enter your first az"
 vpc_id        = "aws_vpc.rds_vpc.id"
-#access_key    = "NA"
-#secret_key    = "NA"
 }
 
 ~~~
