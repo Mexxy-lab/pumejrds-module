@@ -1,7 +1,7 @@
 #terraform.tfvars
 region = "us-east-2"
-#access_key    = "AKIAYWRW73SNWVTBSR4M"
-#secret_key    = "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"
+#access_key    = "NA"
+#secret_key    = "NA"
 vpc_id        = "aws_vpc.rds_vpc.id"
 priv_one_cidr = "10.0.1.0/24"
 az_one        = "us-east-2a"
