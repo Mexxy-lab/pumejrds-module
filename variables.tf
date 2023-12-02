@@ -38,8 +38,20 @@ variable "priv_one_cidr" {
   description = "cidr for first private subnet"
 }
 
+# Varible for private subnet one cidr
+variable "priv_two_cidr" {
+  type        = string
+  description = "cidr for first private subnet"
+}
+
 # variable for 1st availability zone
 variable "az_one" {
+  type        = string
+  description = "az for my first public or private subnet"
+}
+
+# variable for 1st availability zone
+variable "az_two" {
   type        = string
   description = "az for my first public or private subnet"
 }

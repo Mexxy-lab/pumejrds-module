@@ -33,11 +33,11 @@ resource "aws_security_group" "mysql_sg" {
   }
 }
 
-# Create private subnet
+# Create first private subnet
 resource "aws_subnet" "priv_one" {
-  vpc_id            = aws_vpc.rds_vpc.id
-  cidr_block        = var.priv_one_cidr
-  availability_zone = var.az_one
+  vpc_id                  = aws_vpc.rds_vpc.id
+  cidr_block              = var.priv_one_cidr
+  availability_zone       = var.az_one
   map_public_ip_on_launch = false
 
   tags = {
@@ -45,19 +45,31 @@ resource "aws_subnet" "priv_one" {
   }
 }
 
+# Create second private subnet
+resource "aws_subnet" "priv_two" {
+  vpc_id                  = aws_vpc.rds_vpc.id
+  cidr_block              = var.priv_two_cidr
+  availability_zone       = var.az_two
+  map_public_ip_on_launch = false
+
+  tags = {
+    Name = "Private Subnet two"
+  }
+}
+
 #create a RDS Database Instance
 resource "aws_db_instance" "pumejrds-instance" {
-  engine               = "mysql"
-  identifier           = "myrdsinstance"
-  allocated_storage    = 20
-  engine_version       = "5.7"
-  instance_class       = "db.t2.micro"
-  username             = "root"
-  password             = "emekulusfechi"
-  parameter_group_name = "default.mysql5.7"
-  db_subnet_group_name = aws_db_subnet_group.mysql_subnet_group.name
-  skip_final_snapshot  = true
-  publicly_accessible  = true
+  engine                 = "mysql"
+  identifier             = "myrdsinstance"
+  allocated_storage      = 20
+  engine_version         = "5.7"
+  instance_class         = "db.t2.micro"
+  username               = "root"
+  password               = "emekulusfechi"
+  parameter_group_name   = "default.mysql5.7"
+  db_subnet_group_name   = aws_db_subnet_group.mysql_subnet_group.name
+  skip_final_snapshot    = true
+  publicly_accessible    = true
   vpc_security_group_ids = [aws_security_group.mysql_sg.id]
 
   lifecycle {
@@ -79,5 +91,5 @@ resource "aws_db_instance" "pumejrds-instance" {
 # Create a DB subnet group for the private subnet
 resource "aws_db_subnet_group" "mysql_subnet_group" {
   name       = "my-mysql-subnet-group"
-  subnet_ids = [aws_subnet.priv_one.id]
+  subnet_ids = [aws_subnet.priv_one.id, aws_subnet.priv_two.id]
 }
