@@ -33,7 +33,7 @@ resource "aws_db_instance" "pumejrds-instance" {
   username             = "root"
   password             = "emekulusfechi"
   parameter_group_name = "default.mysql5.7"
-  subnet_id            = aws_subnet.priv_one.id
+  db_subnet_group_name = aws_subnet.priv_one.id
   skip_final_snapshot  = true
   publicly_accessible  = true
 
