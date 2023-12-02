@@ -25,17 +25,17 @@ resource "aws_subnet" "priv_one" {
 
 #create a RDS Database Instance
 resource "aws_db_instance" "pumejrds-instance" {
-  engine                 = "mysql"
-  identifier             = "myrdsinstance"
-  allocated_storage      = 20
-  engine_version         = "5.7"
-  instance_class         = "db.t2.micro"
-  username               = "root"
-  password               = "emekulusfechi"
-  parameter_group_name   = "default.mysql5.7"
-  vpc_id                 = "aws_vpc.rds_vpc.id"
-  skip_final_snapshot    = true
-  publicly_accessible    = true
+  engine               = "mysql"
+  identifier           = "myrdsinstance"
+  allocated_storage    = 20
+  engine_version       = "5.7"
+  instance_class       = "db.t2.micro"
+  username             = "root"
+  password             = "emekulusfechi"
+  parameter_group_name = "default.mysql5.7"
+  subnet_id            = aws_subnet.priv_one.id
+  skip_final_snapshot  = true
+  publicly_accessible  = true
 
   #vpc_config {
   #subnet_ids = [aws_subnet.priv_one.id]
