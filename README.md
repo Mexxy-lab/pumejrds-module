@@ -3,7 +3,7 @@
 ~~~
 
 module "pumejrds-module" {
-source        = "github.com/Mexxy-lab/terraform-aws-pumejrds-module.git"
+source        = "Mexxy-lab/pumejrds-module/aws"
 version       = "Enter module version"
 region        = "Enter your region here"
 vpc_cidr      = "10.0.0.0/16"
