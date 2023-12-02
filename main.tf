@@ -12,11 +12,33 @@ resource "aws_vpc" "rds_vpc" {
   tags                 = var.vpc_tags
 }
 
+# Create a security group for the MySQL database
+resource "aws_security_group" "mysql_sg" {
+  vpc_id = aws_vpc.rds_vpc.id
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Add ingress rules as needed
+  # Example: Allow MySQL traffic from a specific IP
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 # Create private subnet
 resource "aws_subnet" "priv_one" {
   vpc_id            = aws_vpc.rds_vpc.id
   cidr_block        = var.priv_one_cidr
   availability_zone = var.az_one
+  map_public_ip_on_launch = false
 
   tags = {
     Name = "Private Subnet one"
@@ -33,9 +55,19 @@ resource "aws_db_instance" "pumejrds-instance" {
   username             = "root"
   password             = "emekulusfechi"
   parameter_group_name = "default.mysql5.7"
-  db_subnet_group_name = aws_subnet.priv_one.id
+  db_subnet_group_name = aws_db_subnet_group.mysql_subnet_group.name
   skip_final_snapshot  = true
   publicly_accessible  = true
+  vpc_security_group_ids = [aws_security_group.mysql_sg.id]
+
+  lifecycle {
+    ignore_changes = [
+      allocated_storage,
+      instance_class,
+      username,
+      password,
+    ]
+  }
 
   #vpc_config {
   #subnet_ids = [aws_subnet.priv_one.id]
@@ -44,17 +76,8 @@ resource "aws_db_instance" "pumejrds-instance" {
   #}
 }
 
-# Create a route table for the private subnet
-resource "aws_route_table" "private_subnet_route_table" {
-  vpc_id = aws_vpc.rds_vpc.id
-
-  tags = {
-    Name = "My VPC Private Subnet Route Table"
-  }
-}
-
-# Associate the 1st private subnet with the private subnet route table
-resource "aws_route_table_association" "private_subnet_route_table_association" {
-  subnet_id      = aws_subnet.priv_one.id
-  route_table_id = aws_route_table.private_subnet_route_table.id
+# Create a DB subnet group for the private subnet
+resource "aws_db_subnet_group" "mysql_subnet_group" {
+  name       = "my-mysql-subnet-group"
+  subnet_ids = [aws_subnet.priv_one.id]
 }

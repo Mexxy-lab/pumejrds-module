@@ -54,3 +54,13 @@ variable "vpc_tags" {
     Team        = "DevOps"
   }
 }
+
+# Variable for IGW
+variable "igw_tags" {
+  type = map(string)
+  default = {
+    Name        = "vpc_igw"
+    Environment = "Production"
+    Team        = "DevOps"
+  }
+}
