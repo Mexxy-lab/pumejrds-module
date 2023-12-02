@@ -2,7 +2,7 @@ MY NICE and AWESOME TERRAFORM MODULE TO PROVISION RDS MySQL DB WITH CUSTOM VPC O
 
 module "pumejrds-module" {
 source        = "Mexxy-lab/pumejrds-module/aws"
-version       = 1.0.1
+version       = "Enter latest version"
 region        = "Enter your region here"
 vpc_cidr      = "10.0.0.0/16"
 dns_hostnames = true
