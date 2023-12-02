@@ -3,8 +3,7 @@
 ~~~
 
 module "pumejrds-module" {
-source        = "./module"
-version       = "Enter the latest version"
+source        = "github.com/Mexxy-lab/terraform-aws-pumejrds-module.git"
 region        = "Enter your region here"
 vpc_cidr      = "10.0.0.0/16"
 dns_hostnames = true
